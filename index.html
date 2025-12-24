@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RealWorldPANOS</title>
+  <meta name="description" content="Real-world PAN-OS field notes from production environments." />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111827;
+      --muted: #4b5563;
+      --line: #e5e7eb;
+      --link: #2563eb;
+      --maxw: 920px;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 28px 20px 64px; }
+    header { margin-bottom: 18px; }
+    h1 { margin: 0 0 10px; font-size: 42px; letter-spacing: -0.02em; }
+    .lead { color: var(--muted); margin: 0 0 18px; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 22px 0; }
+    h2 { margin: 0 0 10px; font-size: 22px; }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin: 8px 0; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pill {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    footer { margin-top: 26px; color: var(--muted); font-size: 14px; }
+    .small { font-size: 14px; color: var(--muted); }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>RealWorldPANOS</h1>
+      <p class="lead"><strong>Real-world PAN-OS field notes from production environments.</strong><br>
+        Practical lessons, patterns, and defensive techniques—written by a working firewall engineer.</p>
+      <div class="pill">No vendor spin • No fluff • Field-tested</div>
+    </header>
+
+    <hr>
+
+    <section>
+      <h2>What you’ll find here</h2>
+      <ul>
+        <li><strong>Proxy / bypass reality</strong> (what actually shows up in logs)</li>
+        <li><strong>App-ID + URL + behavior</strong> patterns that matter in production</li>
+        <li><strong>Panorama at scale</strong>: hygiene, structure, and survivability</li>
+        <li><strong>Decryption edge cases</strong>: what breaks, why, and how to reduce pain</li>
+        <li><strong>Operational tradeo
