@@ -2,162 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RealWorldPANOS</title>
   <meta name="description" content="Real-world PAN-OS field notes from production environments." />
-  <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #111827;
-      --muted: #4b5563;
-      --line: #e5e7eb;
-      --link: #2563eb;
-      --maxw: 920px;
-    }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 28px 20px 64px; }
-    header { margin-bottom: 18px; }
-    h1 { margin: 0 0 10px; font-size: 42px; letter-spacing: -0.02em; }
-    .lead { color: var(--muted); margin: 0 0 18px; }
-    hr { border: 0; border-top: 1px solid var(--line); margin: 22px 0; }
-    h2 { margin: 0 0 10px; font-size: 22px; }
-    ul { margin: 0; padding-left: 18px; }
-    li { margin: 8px 0; }
-    a { color: var(--link); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .pill {
-      display: inline-block;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-    .small { font-size: 14px; color: var(--muted); }
-    footer { margin-top: 26px; color: var(--muted); font-size: 14px; }
-    code { background: #f3f4f6; padding: 2px 6px; border-radius: 6px; }
-  </style>
+  <link rel="stylesheet" href="/assets/css/site.css" />
 </head>
-
 <body>
+
+  <div class="topbar">
+    <div class="nav">
+      <a class="brand" href="/"><span class="dot"></span><span>RealWorldPANOS</span></a>
+      <div class="navlinks">
+        <a class="active" href="/">Home</a>
+        <a href="/posts/from-log-to-block.html">Posts</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
-    <header>
+    <div class="hero">
       <h1>RealWorldPANOS</h1>
-      <p class="lead"><strong>Real-world PAN-OS field notes from production environments.</strong><br>
-        Practical lessons, patterns, and defensive techniques—written by a working firewall engineer.</p>
-      <div class="pill">No vendor spin • No fluff • Field-tested</div>
-    </header>
-
-    <hr>
-
-    <section>
-      <h2>What you’ll find here</h2>
-      <ul>
-        <li><strong>Proxy / bypass reality</strong> (what actually shows up in logs)</li>
-        <li><strong>App-ID + URL + behavior</strong> patterns that matter in production</li>
-        <li><strong>Panorama at scale</strong>: hygiene, structure, and survivability</li>
-
-        <li>
-          <strong>Take-home enforcement</strong>: PAC + pass-through proxy patterns that keep PAN-OS filtering off-campus
-          (<a href="posts/maintaining-filtering-on-take-home-chromebooks.html">read</a>)
-        </li>
-
-        <li>
-          <strong>Log → tag → DAG → block</strong>: automated containment for external threat sources
-          (<a href="posts/from-log-to-block.html">read</a>)
-        </li>
-
-        <li><strong>Decryption edge cases</strong>: what breaks, why, and how to reduce pain</li>
-        <li><strong>Operational tradeoffs</strong>: performance, false positives, and maintainability</li>
-      </ul>
-    </section>
-
-    <hr>
-
-    <section>
-      <h2>Philosophy</h2>
-      <ul>
-        <li><strong>No vendor spin. No fluff.</strong></li>
-        <li>Share <strong>how to think</strong>, not copy/paste production configs.</li>
-        <li>Examples are <strong>sanitized</strong> and designed to be adaptable across environments.</li>
-      </ul>
-    </section>
-
-    <hr>
-
-    <section>
-      <h2>Start here</h2>
-      <ul>
-        <li>
-          <strong>Start here:</strong>
-          <a href="posts/maintaining-filtering-on-take-home-chromebooks.html">
-            Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
-          </a>
-        </li>
-        <li><strong>Coming next:</strong> <em>How users actually bypass web filtering (and why App-ID alone isn’t enough)</em></li>
-        <li><strong>After that:</strong> <em>Proxy-evasion indicators worth alerting on (without nuking legit traffic)</em></li>
-        <li><strong>Then:</strong> <em>Panorama structure that scales without turning into spaghetti</em></li>
-      </ul>
-      <p class="small" style="margin-top:12px;">(Posts will be linked here as they’re published.)</p>
-    </section>
-
-    <hr>
-
-    <section id="posts">
-      <h2>Posts</h2>
-      <ul>
-        <li>
-          <a href="posts/maintaining-filtering-on-take-home-chromebooks.html">
-            Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
-          </a>
-          <span class="small">— PAC + pass-through proxies for off-campus filtering</span>
-        </li>
-        <li>
-          <a href="posts/from-log-to-block.html">
-            From Log to Block: Auto-Blocking External Threat Sources with PAN-OS
-          </a>
-          <span class="small">— log forwarding tagging + Dynamic Address Groups</span>
-        </li>
-      </ul>
-    </section>
-
-    <hr>
-
-    <section id="about">
-      <h2>About</h2>
-      <p>
-        I’m <strong>Ben McCall</strong>, a senior PAN-OS firewall engineer working in large-scale production networks,
-        primarily in K-12 environments where bypass attempts are constant and creative.
-        I’ve been hands-on with Palo Alto since <strong>January 2013</strong> (PA-5050 era).<br>
-        This site is a place to document what works, what fails, and why—so other engineers can move faster.
+      <p class="lead">
+        <b>Real-world PAN-OS field notes from production environments.</b><br>
+        Practical lessons, patterns, and defensive techniques—written by a working firewall engineer.
       </p>
-    </section>
+      <div class="kicker"><b>No vendor spin</b> • No fluff • Field-tested</div>
+    </div>
 
-    <hr>
+    <hr class="sep">
 
-    <section>
-      <h2>Disclaimer</h2>
-      <p class="small">
-        All views are my own and do not represent my employer.<br>
-        Content is shared for educational purposes; apply changes responsibly and test in your environment.
-      </p>
-    </section>
+    <div class="grid">
+      <div class="card">
+        <h2>What you’ll find here</h2>
+        <ul>
+          <li><b>Proxy / bypass reality</b> (what actually shows up in logs)</li>
+          <li><b>App-ID + URL + behavior</b> patterns that matter in production</li>
+          <li><b>Panorama at scale</b>: hygiene, structure, and survivability</li>
+          <li><b>Take-home enforcement</b>: PAC + pass-through proxies to keep filtering off-campus</li>
+          <li><b>Threat prevention ops</b>: auto-block patterns using tags + DAGs</li>
+          <li><b>Decryption edge cases</b>: what breaks, why, and how to reduce pain</li>
+          <li><b>Operational tradeoffs</b>: performance, false positives, and maintainability</li>
+        </ul>
 
-    <hr>
+        <div class="tags">
+          <span class="tag">PAN-OS</span>
+          <span class="tag">K-12</span>
+          <span class="tag">Threat Prevention</span>
+          <span class="tag">DAG</span>
+          <span class="tag">Log Forwarding</span>
+          <span class="tag">Proxies</span>
+        </div>
+      </div>
 
-    <footer id="contact">
-      <h2>Contact / Links</h2>
-      <p class="small">
-        <a href="mailto:benmccall1976@gmail.com">benmccall1976@gmail.com</a><br>
+      <div class="card">
+        <h2>Start here</h2>
+
+        <div class="postlist">
+          <div class="postitem">
+            <a href="/posts/maintaining-filtering-on-take-home-chromebooks.html">
+              Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
+            </a>
+            <div class="meta">PAC file + Apache + Squid pass-through + off-campus DNS</div>
+          </div>
+
+          <div class="postitem">
+            <a href="/posts/from-log-to-block.html">
+              From Log to Block: Auto-Blocking External Threat Sources with PAN-OS
+            </a>
+            <div class="meta">Log forwarding filter → tagging → Dynamic Address Group → top-of-policy drop</div>
+          </div>
+        </div>
+
+        <hr class="sep">
+
+        <h2>Coming next</h2>
+        <ul>
+          <li><em>How users actually bypass web filtering (and why App-ID alone isn’t enough)</em></li>
+          <li><em>Proxy-evasion indicators worth alerting on (without nuking legit traffic)</em></li>
+          <li><em>Panorama structure that scales without turning into spaghetti</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div><b>Ben McCall</b> • Palo Alto since Jan 2013 (PA-5050 era)</div>
+      <div style="margin-top:6px">
+        <a href="mailto:benmccall1976@gmail.com">benmccall1976@gmail.com</a> •
         <a href="https://www.linkedin.com/in/ben-mccall136" rel="me">LinkedIn</a>
-      </p>
-    </footer>
+      </div>
+      <div style="margin-top:10px">
+        All views are my own and do not represent my employer. Content is for educational purposes—test changes safely.
+      </div>
+    </div>
+
   </div>
 </body>
 </html>
