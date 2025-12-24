@@ -33,7 +33,7 @@ Practical lessons, patterns, and defensive techniques—written by a working fir
 
 ## About
 
-I’m a senior PAN-OS firewall engineer working in large-scale production networks.  
+I’m a senior PAN-OS firewall engineer working in large-scale production networks, primarily in K-12 environments where bypass attempts are constant and creative.  
 This site is a place to document what works, what fails, and why—so other engineers can move faster.
 
 ---
