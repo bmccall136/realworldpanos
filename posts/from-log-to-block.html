@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>From Log to Block: Auto-Blocking External Threat Sources (PAN-OS) | RealWorldPANOS</title>
+  <meta name="description" content="How to use PAN-OS log forwarding + tagging + Dynamic Address Groups to automatically block external threat source IPs across your network." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --fg:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --chip:#f1f5f9;
+      --link:#2563eb;
+      --maxw: 980px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{border-bottom:1px solid var(--line)}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:28px 22px}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand a{font-weight:700;font-size:20px;letter-spacing:.2px}
+    .nav a{margin-left:14px;color:var(--muted)}
+    .nav a:hover{color:var(--fg)}
+    h1{font-size:40px;line-height:1.1;margin:18px 0 10px}
+    .sub{color:var(--muted);max-width:70ch}
+    .chips{margin:18px 0 6px;display:flex;gap:10px;flex-wrap:wrap}
+    .chip{background:var(--chip);border:1px solid var(--line);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
+    hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+    h2{font-size:22px;margin:26px 0 10px}
+    p{max-width:78ch}
+    ul{max-width:78ch}
+    li{margin:6px 0}
+    .callout{
+      border:1px solid var(--line);
+      background:#fafafa;
+      padding:14px 16px;
+      border-radius:12px;
+      max-width:78ch;
+      color:var(--muted);
+    }
+    .k{font-weight:700;color:var(--fg)}
+    footer{border-top:1px solid var(--line);margin-top:36px}
+    .small{font-size:13px;color:var(--muted)}
+    code{background:#f8fafc;border:1px solid var(--line);padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap brand">
+    <a href="index.html">RealWorldPANOS</a>
+    <nav class="nav">
+      <a href="index.html#posts">Posts</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="chips">
+    <span class="chip">PAN-OS</span>
+    <span class="chip">Operations</span>
+    <span class="chip">Threat Prevention</span>
+    <span class="chip">Dynamic Address Groups</span>
+    <span class="chip">Log Forwarding / Tagging</span>
+  </div>
+
+  <h1>From Log to Block: Auto-Blocking External Threat Sources with PAN-OS</h1>
+  <p class="sub">
+    A production pattern: use <span class="k">log forwarding filters</span> to <span class="k">tag external source IPs</span>
+    on meaningful denied threats, feed those tags into a <span class="k">Dynamic Address Group</span>, and enforce a
+    <span class="k">high-priority global block rule</span>.
+  </p>
+
+  <hr />
+
+  <h2>The problem</h2>
+  <p>
+    Internet-facing services attract constant hostile traffic. Even when traffic is denied, repeat offenders can create
+    a huge amount of noise and overhead: repeated sessions, repeated inspection, repeated log volume, and reduced
+    visibility for higher-value events.
+  </p>
+
+  <div class="callout">
+    <span class="k">Goal:</span> If an external source IP triggers a meaningful denied threat (medium/high), it should be blocked
+    everywhere automatically—without external tooling and without manual list maintenance.
+  </div>
+
+  <h2>The design pattern</h2>
+  <ul>
+    <li><span class="k">Threat log forwarding filter</span> matches denied medium/high threat events from the outside.</li>
+    <li><span class="k">Tagging action</span> applies a tag to the <span class="k">source address</span> at log time.</li>
+    <li><span class="k">Dynamic Address Group</span> matches any IP with that tag.</li>
+    <li><span class="k">High-priority security policy</span> drops traffic from that DAG to anything.</li>
+  </ul>
+
+  <h2>1) Log forwarding filter (Threat logs)</h2>
+  <p>
+    Create a log forwarding profile match list for <span class="k">Log Type: threat</span> and filter for events that
+    represent real, actionable abuse:
+  </p>
+  <ul>
+    <li>Source zone = outside / untrusted</li>
+    <li>Action = denied / dropped (based on your logging model)</li>
+    <li>Severity = medium/high (tune for your environment)</li>
+    <li>Exclude known infrastructure and expected traffic patterns</li>
+  </ul>
+
+  <h2>2) Tag the source IP (built-in tagging action)</h2>
+  <p>
+    The built-in action tags the <span class="k">Source Address</span> (not a user, not a destination). This closes the loop:
+    the firewall observes the event and immediately converts it into an enforcement input.
+  </p>
+  <p class="small">
+    Note: Tag lifetime/expiration is environment-specific. Some teams use timeouts; others clear tags operationally.
+  </p>
+
+  <h2>3) Dynamic Address Group (DAG)</h2>
+  <p>
+    Define a <span class="k">Dynamic Address Group</span> that matches on the tag name. As soon as the firewall registers
+    the tag, that IP becomes a member of the DAG—no commits or external refresh.
+  </p>
+
+  <h2>4) High-priority block rule</h2>
+  <p>
+    Place a high-priority security rule near the top of the rulebase:
+  </p>
+  <ul>
+    <li>Source zone: outside / untrusted</li>
+    <li>Source address: <code>DAG_Outside_Threats</code> (your name)</li>
+    <li>Destination: any</li>
+    <li>Application/Service: any</li>
+    <li>Action: drop</li>
+  </ul>
+
+  <h2>What this buys you</h2>
+  <ul>
+    <li><span class="k">Noise reduction:</span> repeat offenders stop generating meaningful churn after the first hit.</li>
+    <li><span class="k">Performance protection:</span> known-bad sources get dropped early, reducing repeated inspection overhead.</li>
+    <li><span class="k">Self-updating enforcement:</span> no manual lists, no external EDL hosting, no scripts required.</li>
+    <li><span class="k">Environment-aware blocking:</span> you block what actually attacks you.</li>
+  </ul>
+
+  <h2>Guardrails</h2>
+  <ul>
+    <li><span class="k">Exclusions matter.</span> Don’t tag your own infrastructure, trusted scanners, or known third-party services.</li>
+    <li><span class="k">Severity threshold matters.</span> Medium+ works well in many environments, but tune aggressively.</li>
+    <li><span class="k">Tag lifecycle matters.</span> Decide whether tags age out or are cleared manually.</li>
+    <li><span class="k">Placement matters.</span> Keep the block rule high so it acts as an early “containment gate.”</li>
+  </ul>
+
+  <hr />
+
+  <p class="small">
+    This post describes an operational pattern (the “how to think”). Implementation details are intentionally generalized
+    and should be tested safely in your environment.
+  </p>
+</main>
+
+<footer>
+  <div class="wrap small">
+    <div>All views are my own and do not represent my employer.</div>
+    <div>© <script>document.write(new Date().getFullYear())</script> RealWorldPANOS</div>
+  </div>
+</footer>
+
+</body>
+</html>
