@@ -68,6 +68,11 @@
           (<a href="posts/maintaining-filtering-on-take-home-chromebooks.html">read</a>)
         </li>
 
+        <li>
+          <strong>Log → tag → DAG → block</strong>: automated containment for external threat sources
+          (<a href="posts/from-log-to-block.html">read</a>)
+        </li>
+
         <li><strong>Decryption edge cases</strong>: what breaks, why, and how to reduce pain</li>
         <li><strong>Operational tradeoffs</strong>: performance, false positives, and maintainability</li>
       </ul>
@@ -95,18 +100,6 @@
             Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
           </a>
         </li>
-        <section id="posts">
-  <h2>Posts</h2>
-  <ul>
-    <li>
-      <a href="outside-threats-dag.html">
-        From Log to Block: Auto-Blocking External Threat Sources with PAN-OS
-      </a>
-      <span style="color:#64748b;">— log forwarding tagging + Dynamic Address Groups</span>
-    </li>
-  </ul>
-</section>
-
         <li><strong>Coming next:</strong> <em>How users actually bypass web filtering (and why App-ID alone isn’t enough)</em></li>
         <li><strong>After that:</strong> <em>Proxy-evasion indicators worth alerting on (without nuking legit traffic)</em></li>
         <li><strong>Then:</strong> <em>Panorama structure that scales without turning into spaghetti</em></li>
@@ -116,7 +109,27 @@
 
     <hr>
 
-    <section>
+    <section id="posts">
+      <h2>Posts</h2>
+      <ul>
+        <li>
+          <a href="posts/maintaining-filtering-on-take-home-chromebooks.html">
+            Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
+          </a>
+          <span class="small">— PAC + pass-through proxies for off-campus filtering</span>
+        </li>
+        <li>
+          <a href="posts/from-log-to-block.html">
+            From Log to Block: Auto-Blocking External Threat Sources with PAN-OS
+          </a>
+          <span class="small">— log forwarding tagging + Dynamic Address Groups</span>
+        </li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section id="about">
       <h2>About</h2>
       <p>
         I’m <strong>Ben McCall</strong>, a senior PAN-OS firewall engineer working in large-scale production networks,
@@ -138,7 +151,7 @@
 
     <hr>
 
-    <footer>
+    <footer id="contact">
       <h2>Contact / Links</h2>
       <p class="small">
         <a href="mailto:benmccall1976@gmail.com">benmccall1976@gmail.com</a><br>
