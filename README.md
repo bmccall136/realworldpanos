@@ -46,4 +46,5 @@ Content is shared for educational purposes; apply changes responsibly and test i
 ---
 
 **Contact / Links**  
-(you can add LinkedIn/GitHub here later)
+- LinkedIn: https://www.linkedin.com/in/ben-mccall136
+
