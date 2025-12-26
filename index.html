@@ -2,101 +2,139 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RealWorldPANOS</title>
   <meta name="description" content="Real-world PAN-OS field notes from production environments." />
-  <link rel="stylesheet" href="/assets/css/site.css" />
-</head>
-<body>
 
+  <!-- Dark theme CSS -->
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+
+<body>
+  <!-- Top nav -->
   <div class="topbar">
-    <div class="nav">
-      <a class="brand" href="/"><span class="dot"></span><span>RealWorldPANOS</span></a>
-      <div class="navlinks">
-        <a class="active" href="/">Home</a>
-        <a href="/posts/from-log-to-block.html">Posts</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-      </div>
+    <div class="topbar-inner">
+      <div class="brand"><a href="index.html">RealWorldPANOS</a></div>
+      <nav class="nav">
+        <a href="#posts">Posts</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
   </div>
 
   <div class="wrap">
-    <div class="hero">
+    <!-- Hero -->
+    <section class="hero">
       <h1>RealWorldPANOS</h1>
       <p class="lead">
-        <b>Real-world PAN-OS field notes from production environments.</b><br>
+        <strong>Real-world PAN-OS field notes from production environments.</strong><br>
         Practical lessons, patterns, and defensive techniques—written by a working firewall engineer.
       </p>
-      <div class="kicker"><b>No vendor spin</b> • No fluff • Field-tested</div>
-    </div>
 
-    <hr class="sep">
-
-    <div class="grid">
-      <div class="card">
-        <h2>What you’ll find here</h2>
-        <ul>
-          <li><b>Proxy / bypass reality</b> (what actually shows up in logs)</li>
-          <li><b>App-ID + URL + behavior</b> patterns that matter in production</li>
-          <li><b>Panorama at scale</b>: hygiene, structure, and survivability</li>
-          <li><b>Take-home enforcement</b>: PAC + pass-through proxies to keep filtering off-campus</li>
-          <li><b>Threat prevention ops</b>: auto-block patterns using tags + DAGs</li>
-          <li><b>Decryption edge cases</b>: what breaks, why, and how to reduce pain</li>
-          <li><b>Operational tradeoffs</b>: performance, false positives, and maintainability</li>
-        </ul>
-
-        <div class="tags">
-          <span class="tag">PAN-OS</span>
-          <span class="tag">K-12</span>
-          <span class="tag">Threat Prevention</span>
-          <span class="tag">DAG</span>
-          <span class="tag">Log Forwarding</span>
-          <span class="tag">Proxies</span>
-        </div>
+      <div class="badges">
+        <span class="badge"><span class="dot"></span>No vendor spin</span>
+        <span class="badge"><span class="dot"></span>No fluff</span>
+        <span class="badge"><span class="dot"></span>Field-tested</span>
       </div>
+    </section>
 
-      <div class="card">
-        <h2>Start here</h2>
+    <!-- What you'll find -->
+    <section class="section" style="margin-top:18px;">
+      <div class="kicker">Overview</div>
+      <h2>What you’ll find here</h2>
+      <ul>
+        <li><strong>Proxy / bypass reality</strong> (what actually shows up in logs)</li>
+        <li><strong>App-ID + URL + behavior</strong> patterns that matter in production</li>
+        <li><strong>Panorama at scale</strong>: hygiene, structure, and survivability</li>
+        <li><strong>Take-home enforcement</strong>: keeping filtering intact off-campus (PAC + pass-through proxies)</li>
+        <li><strong>Dynamic enforcement</strong>: log-driven tagging + Dynamic Address Groups</li>
+        <li><strong>Decryption edge cases</strong>: what breaks, why, and how to reduce pain</li>
+        <li><strong>Operational tradeoffs</strong>: performance, false positives, and maintainability</li>
+      </ul>
+    </section>
 
-        <div class="postlist">
-          <div class="postitem">
-            <a href="/posts/maintaining-filtering-on-take-home-chromebooks.html">
-              Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
-            </a>
-            <div class="meta">PAC file + Apache + Squid pass-through + off-campus DNS</div>
-          </div>
+    <!-- Posts -->
+    <section class="section" id="posts">
+      <div class="kicker">Start here</div>
+      <h2>Posts</h2>
 
-          <div class="postitem">
-            <a href="/posts/from-log-to-block.html">
+      <div class="cardgrid">
+        <div class="card">
+          <h3>
+            <a href="posts/from-log-to-block.html">
               From Log to Block: Auto-Blocking External Threat Sources with PAN-OS
             </a>
-            <div class="meta">Log forwarding filter → tagging → Dynamic Address Group → top-of-policy drop</div>
-          </div>
+          </h3>
+          <p>
+            Log forwarding filter → built-in tagging action → Dynamic Address Group → high-priority block rule.
+          </p>
         </div>
 
-        <hr class="sep">
-
-        <h2>Coming next</h2>
-        <ul>
-          <li><em>How users actually bypass web filtering (and why App-ID alone isn’t enough)</em></li>
-          <li><em>Proxy-evasion indicators worth alerting on (without nuking legit traffic)</em></li>
-          <li><em>Panorama structure that scales without turning into spaghetti</em></li>
-        </ul>
+        <div class="card">
+          <h3>
+            <a href="posts/maintaining-filtering-on-take-home-chromebooks.html">
+              Maintaining Web Filtering on Take-Home Chromebooks (At Scale)
+            </a>
+          </h3>
+          <p>
+            PAC + pass-through Squid proxies + enforced user auth to keep policies working off-network.
+          </p>
+        </div>
       </div>
-    </div>
+
+      <div class="hr"></div>
+      <p class="muted" style="margin:0;">
+        More posts coming: proxy-evasion indicators, Panorama structure patterns, and decryption “gotchas”.
+      </p>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="section">
+      <div class="kicker">Philosophy</div>
+      <h2>How this site is written</h2>
+      <ul>
+        <li><strong>No vendor spin. No fluff.</strong></li>
+        <li>Share <strong>how to think</strong>, not copy/paste production configs.</li>
+        <li>Examples are <strong>sanitized</strong> and designed to be adaptable across environments.</li>
+      </ul>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="kicker">About</div>
+      <h2>About</h2>
+      <p class="muted" style="margin-top:0;">
+        I’m <strong>Ben McCall</strong>, a senior PAN-OS firewall engineer working in large-scale production networks,
+        primarily in K-12 environments where bypass attempts are constant and creative.
+        I’ve been hands-on with Palo Alto since <strong>January 2013</strong> (PA-5050 era).<br>
+        This site documents what works, what fails, and why—so other engineers can move faster.
+      </p>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="section">
+      <div class="kicker">Disclaimer</div>
+      <h2>Disclaimer</h2>
+      <p class="muted" style="margin-top:0;">
+        All views are my own and do not represent my employer.<br>
+        Content is shared for educational purposes; apply changes responsibly and test in your environment.
+      </p>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="kicker">Contact</div>
+      <h2>Contact / Links</h2>
+      <p class="muted" style="margin-top:0;">
+        <a href="mailto:benmccall1976@gmail.com">benmccall1976@gmail.com</a><br>
+        <a href="https://www.linkedin.com/in/ben-mccall136" rel="me">LinkedIn</a>
+      </p>
+    </section>
 
     <div class="footer">
-      <div><b>Ben McCall</b> • Palo Alto since Jan 2013 (PA-5050 era)</div>
-      <div style="margin-top:6px">
-        <a href="mailto:benmccall1976@gmail.com">benmccall1976@gmail.com</a> •
-        <a href="https://www.linkedin.com/in/ben-mccall136" rel="me">LinkedIn</a>
-      </div>
-      <div style="margin-top:10px">
-        All views are my own and do not represent my employer. Content is for educational purposes—test changes safely.
-      </div>
+      © 2025 RealWorldPANOS
     </div>
-
   </div>
 </body>
 </html>
