@@ -1,0 +1,176 @@
+:root{
+  --bg:#0b1020;
+  --panel:#0f172a;
+  --panel2:#111b33;
+  --fg:#e5e7eb;
+  --muted:#94a3b8;
+  --line:#1f2a44;
+  --link:#7dd3fc;
+  --link2:#a78bfa;
+  --good:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --maxw:980px;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,.25), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(14,165,233,.18), transparent 55%),
+    linear-gradient(180deg, #070a14, var(--bg));
+  color:var(--fg);
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:26px 18px 80px}
+
+.topbar{
+  position:sticky;top:0;z-index:30;
+  backdrop-filter:saturate(140%) blur(10px);
+  background:rgba(7,10,20,.75);
+  border-bottom:1px solid rgba(31,42,68,.55);
+}
+.topbar-inner{max-width:var(--maxw);margin:0 auto;padding:14px 18px;display:flex;align-items:center;gap:18px}
+.brand{font-weight:800;letter-spacing:-.02em;font-size:18px}
+.brand a{color:var(--fg)}
+.nav{margin-left:auto;display:flex;gap:16px}
+.nav a{color:var(--muted);font-weight:600}
+.nav a:hover{color:var(--fg);text-decoration:none}
+
+.hero{
+  margin-top:18px;
+  background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,.55));
+  border:1px solid rgba(31,42,68,.7);
+  border-radius:calc(var(--radius) + 2px);
+  box-shadow:var(--shadow);
+  padding:22px 20px;
+}
+h1{
+  margin:0 0 8px;
+  font-size:42px;
+  letter-spacing:-.03em;
+  line-height:1.1;
+}
+.lead{margin:0;color:var(--muted);max-width:70ch}
+
+.badges{margin-top:14px;display:flex;flex-wrap:wrap;gap:10px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 10px;
+  border:1px solid rgba(31,42,68,.9);
+  background:rgba(17,27,51,.55);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:13px;
+}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:rgba(125,211,252,.9);box-shadow:0 0 0 3px rgba(125,211,252,.12)}
+
+.section{
+  margin-top:18px;
+  background:rgba(15,23,42,.55);
+  border:1px solid rgba(31,42,68,.7);
+  border-radius:var(--radius);
+  padding:18px 18px 14px;
+}
+.section h2{
+  margin:0 0 10px;
+  font-size:18px;
+  letter-spacing:-.01em;
+}
+.section p,.section li{color:var(--fg)}
+.section .muted{color:var(--muted)}
+.hr{height:1px;background:rgba(31,42,68,.7);margin:16px 0}
+
+ul{margin:0;padding-left:18px}
+li{margin:8px 0}
+
+.kicker{
+  display:inline-block;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(148,163,184,.9);
+  margin-bottom:8px;
+}
+
+.cardgrid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:14px;
+}
+.card{
+  grid-column:span 12;
+  background:linear-gradient(180deg, rgba(17,27,51,.75), rgba(17,27,51,.35));
+  border:1px solid rgba(31,42,68,.9);
+  border-radius:var(--radius);
+  padding:14px 14px;
+}
+.card h3{margin:0 0 6px;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+
+@media(min-width:900px){
+  .card{grid-column:span 6}
+}
+
+.post-title{
+  margin:18px 0 8px;
+  font-size:34px;
+  letter-spacing:-.03em;
+  line-height:1.15;
+}
+.post-subtitle{margin:0 0 14px;color:var(--muted);max-width:75ch}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.chip{
+  font-size:12px;
+  color:rgba(226,232,240,.9);
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(31,42,68,.9);
+  background:rgba(17,27,51,.55);
+}
+
+.callout{
+  margin:14px 0;
+  padding:14px 14px;
+  border-radius:var(--radius);
+  border:1px solid rgba(31,42,68,.9);
+  background:rgba(17,27,51,.55);
+  color:var(--fg);
+}
+.callout strong{color:#fff}
+
+.figure{
+  margin:14px 0;
+  padding:12px;
+  border-radius:var(--radius);
+  border:1px solid rgba(31,42,68,.9);
+  background:rgba(2,6,23,.6);
+}
+.figure img{
+  width:100%;
+  height:auto;
+  border-radius:10px;
+  border:1px solid rgba(31,42,68,.7);
+  display:block;
+}
+.caption{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.footer{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:13px;
+}
+.footer a{color:var(--link2)}
