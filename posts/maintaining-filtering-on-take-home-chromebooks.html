@@ -3,254 +3,123 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maintaining Web Filtering on Take-Home Chromebooks (At Scale) • RealWorldPANOS</title>
-  <meta name="description" content="A production pattern for maintaining Palo Alto enforcement on take-home Chromebooks using PAC + Squid pass-through and identity." />
+  <title>Maintaining Web Filtering on Take-Home Chromebooks (At Scale)</title>
+  <meta name="description" content="PAC + pass-through proxies to keep PAN-OS web filtering working off-campus." />
+
+  <!-- Site dark theme -->
+  <link rel="stylesheet" href="../assets/css/site.css">
+
   <style>
-    :root{
-      --bg:#ffffff; --fg:#111827; --muted:#4b5563; --line:#e5e7eb; --link:#2563eb; --code:#0f172a;
-      --maxw: 980px;
+    .post { margin-top: 18px; }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; margin: 14px 0 6px; }
+    .chip { border:1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.72); padding:6px 10px; border-radius: 999px; font-size: 13px; }
+    .post h1 { margin: 14px 0 6px; line-height: 1.1; }
+    .post h2 { margin: 26px 0 10px; }
+    .post p { color: rgba(255,255,255,.72); }
+    .callout {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      padding: 14px 14px;
+      margin: 14px 0;
+      color: rgba(255,255,255,.75);
     }
-    body{
-      margin:0; background:var(--bg); color:var(--fg);
-      font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+    .callout strong { color: rgba(255,255,255,.92); }
+    pre, code {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      color: rgba(255,255,255,.85);
     }
-    .wrap{ max-width:var(--maxw); margin:0 auto; padding:34px 22px 72px; }
-    .topbar{ display:flex; gap:10px; align-items:center; margin-bottom:18px; }
-    .brand a{ font-weight:700; letter-spacing:-0.02em; color:var(--fg); text-decoration:none; }
-    .brand a:hover{ text-decoration:underline; }
-    .crumb{ color:var(--muted); font-size:14px; }
-    h1{ margin:10px 0 10px; font-size:40px; letter-spacing:-0.02em; line-height:1.15; }
-    .meta{ color:var(--muted); font-size:14px; margin:0 0 18px; }
-    hr{ border:0; border-top:1px solid var(--line); margin:24px 0; }
-    h2{ margin:28px 0 10px; font-size:22px; }
-    p{ margin:10px 0; }
-    ul{ margin:10px 0; padding-left:20px; }
-    li{ margin:8px 0; }
-    a{ color:var(--link); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
-    .callout{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px 16px;
-      background:#fafafa;
-      color:var(--muted);
-      font-size:14px;
-      margin:18px 0;
-    }
-    pre{
-      background:var(--code);
-      color:#e5e7eb;
-      padding:14px 16px;
-      border-radius:14px;
-      overflow:auto;
-      font-size:13px;
-      line-height:1.5;
-      border:1px solid #111827;
-    }
-    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-    .footer{
-      margin-top:34px;
-      padding-top:16px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:14px;
-    }
+    pre { padding: 12px 12px; overflow:auto; }
+    code { padding: 2px 8px; }
+    .hr { margin: 22px 0; }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand"><a href="/">RealWorldPANOS</a></div>
-      <div class="crumb">/ posts</div>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><a href="../index.html">RealWorldPANOS</a></div>
+      <nav class="nav">
+        <a href="../index.html#posts">Posts</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap post">
+    <div class="chips">
+      <span class="chip">PAN-OS</span>
+      <span class="chip">K-12</span>
+      <span class="chip">Chromebooks</span>
+      <span class="chip">PAC</span>
+      <span class="chip">Proxy</span>
+      <span class="chip">Google Admin</span>
     </div>
 
     <h1>Maintaining Web Filtering on Take-Home Chromebooks (At Scale)</h1>
-    <p class="meta">Published: December 2025 • Field notes from a large-scale K-12 environment</p>
+    <p class="lead">
+      A field pattern: use PAC + pass-through proxies so off-campus traffic still traverses your Palo Alto policy stack —
+      without turning your proxy layer into a filtering platform.
+    </p>
+
+    <div class="hr"></div>
+
+    <h2>The design</h2>
+    <ul>
+      <li>Ubuntu instances running <strong>Apache</strong> (hosting the PAC file) and <strong>Squid</strong> (pass-through only; not filtering).</li>
+      <li>Proxy settings pushed to <strong>Chromebooks via Google Admin</strong> (and iPads via MDM).</li>
+      <li>Internal DNS intentionally does <strong>not</strong> resolve the proxy name → on-network traffic goes direct and is filtered normally.</li>
+      <li>External DNS resolves the proxy name to a pool of proxies → off-network traffic lands on a proxy and still gets filtered.</li>
+      <li>Palo Alto enforces <strong>user authentication</strong> for proxy use — if you’re not authenticated, nothing works.</li>
+    </ul>
 
     <div class="callout">
-      This post is intentionally <strong>sanitized</strong>. It focuses on the design pattern, not copy/paste configs.
-      Environment-specific values (domains, hostnames, IPs, and auth details) are omitted on purpose.
+      <strong>Key point:</strong> Squid is just a transport hop to force traffic back through the firewall. Filtering stays on PAN-OS.
     </div>
 
-    <hr>
-
+    <h2>PAC behavior</h2>
     <p>
-      When Chromebooks leave campus, most traditional web-filtering strategies quietly fall apart.
-      Home networks are unmanaged. DNS is user-controlled. VPNs introduce reliability and support issues.
-      And students are significantly more motivated to bypass controls once they’re off-site.
-    </p>
-    <p>
-      This post documents a production approach we used to <strong>maintain Palo Alto enforcement for take-home Chromebooks</strong>,
-      without relying on always-on VPNs and without pushing filtering logic down to the endpoint.
+      The PAC file sends selected domains <code>DIRECT</code> and proxies everything else to Squid on <code>:8080</code>.
+      (Sanitize your real domain list before publishing.)
     </p>
 
-    <h2>The Core Problem</h2>
-    <p>Off-campus devices break several assumptions at once:</p>
-    <ul>
-      <li>The district no longer controls the network</li>
-      <li>DNS behavior becomes unpredictable</li>
-      <li>IP-based policy loses meaning</li>
-      <li>Traffic often never reaches district infrastructure</li>
-    </ul>
-    <p>
-      At the same time, expectations around student safety, compliance, and visibility remain unchanged.
-      The goal was simple to state but hard to execute:
-    </p>
-    <p><strong>Ensure all student web traffic continues to be filtered by Palo Alto firewalls, even when devices are off-network.</strong></p>
+    <pre><code>function FindProxyForURL(url, host)
+{
+  // Example: force specific domains through proxy
+  if (shExpMatch(host, "sites.google.com"))
+    return "PROXY proxy.example.org:8080";
 
-    <h2>Architectural Overview (High Level)</h2>
-    <p>
-      Rather than forcing traffic through a single choke point, we designed a <strong>distributed proxy model</strong> with centralized enforcement.
-    </p>
-    <ul>
-      <li>Multiple lightweight Linux proxy servers are deployed</li>
-      <li>Each server runs:
-        <ul>
-          <li>Apache (to host a PAC file)</li>
-          <li>Squid (pass-through only, no filtering)</li>
-        </ul>
-      </li>
-      <li>Squid does <strong>not</strong> make filtering decisions</li>
-      <li>Palo Alto firewalls remain the <strong>only enforcement point</strong></li>
-    </ul>
-    <p>
-      The proxy layer exists solely to <strong>steer traffic back into inspection</strong>, not to evaluate it.
-    </p>
-
-    <h2>Why Squid Was Used (and What It Wasn’t Used For)</h2>
-    <p>This is important to clarify.</p>
-    <p>
-      Squid was <strong>not</strong> used as a filtering proxy. Instead:
-    </p>
-    <ul>
-      <li>No content decisions were made at Squid</li>
-      <li>No categories were enforced</li>
-      <li>No policy logic lived on the proxy</li>
-    </ul>
-    <p>Squid’s role was limited to:</p>
-    <ul>
-      <li>Accepting explicit proxy connections</li>
-      <li>Forwarding traffic toward Palo Alto enforcement</li>
-      <li>Remaining simple, fast, and predictable</li>
-    </ul>
-    <p>This kept the proxy tier operationally boring — which is exactly what you want.</p>
-
-    <h2>PAC Files as the Control Plane</h2>
-    <p>
-      Chromebooks were configured via device management to use a PAC file hosted on Apache.
-      The PAC file determined:
-    </p>
-    <ul>
-      <li>Which destinations could go <code>DIRECT</code></li>
-      <li>Which destinations must go through the proxy</li>
-    </ul>
-
-    <p>Conceptually, the logic looked like this:</p>
-    <pre><code>function FindProxyForURL(url, host) {
-  if (isTrustedEducationalOrPlatformDomain(host))
+  // Example: direct-list (sanitized)
+  else if (
+    shExpMatch(host, "*.example.org") ||
+    shExpMatch(host, "*.google.com") ||
+    shExpMatch(host, "*.gstatic.com") ||
+    shExpMatch(host, "*.googleapis.com") ||
+    shExpMatch(host, "*.googleusercontent.com")
+  )
     return "DIRECT";
+
+  // Default: proxy everything else
   return "PROXY proxy.example.org:8080";
 }</code></pre>
 
-    <p>
-      In practice, the DIRECT list included core platform domains (identity, classroom services, and other performance-sensitive destinations).
-      Everything else was proxied.
-    </p>
-    <p>This ensured:</p>
+    <h2>Authentication enforcement</h2>
     <ul>
-      <li>Performance-sensitive services weren’t penalized</li>
-      <li>Unknown or risky traffic remained visible</li>
-      <li>New destinations defaulted to inspection</li>
+      <li>A Chrome extension authenticates users to the firewall using their external IP context.</li>
+      <li>A separate re-auth method exists via a website tied to AD + PAN-OS API (best as its own dedicated post).</li>
     </ul>
 
-    <h2>DNS Behavior: On-Campus vs Off-Campus</h2>
-    <p>One subtle but critical detail:</p>
-    <ul>
-      <li><strong>On-campus</strong>, the proxy hostname does <em>not</em> resolve → traffic flows naturally through Palo Alto</li>
-      <li><strong>Off-campus</strong>, DNS resolves externally → the proxy hostname resolves to one of the proxy endpoints (load-balanced)</li>
-    </ul>
-    <p>
-      The device behavior stays the same. The network behavior changes underneath it.
-      This eliminated the need for users to toggle settings or understand where they were.
+    <div class="hr"></div>
+
+    <p class="muted" style="margin:0;">
+      Next follow-ups: (1) the Chrome extension workflow, (2) the re-auth website workflow.
     </p>
 
-    <h2>Load Balancing and Scale</h2>
-    <p>Rather than relying on a single proxy:</p>
-    <ul>
-      <li>Multiple proxy servers were deployed</li>
-      <li>DNS provided distribution</li>
-      <li>No session state was required at the proxy layer</li>
-    </ul>
-    <p>If a proxy failed, clients naturally retried another. No user intervention was required.</p>
-
-    <h2>Identity Enforcement (Critical)</h2>
-    <p>
-      Traffic was not allowed to flow simply because a device could reach a proxy.
-      Access required:
-    </p>
-    <ul>
-      <li>User authentication on the Palo Alto</li>
-      <li>Valid user identity mapping</li>
-      <li>Active session state</li>
-    </ul>
-    <p>
-      If a user was not authenticated, traffic failed closed — nothing “sort of worked.”
-      This prevented anonymous abuse and kept policy identity-driven.
-    </p>
-
-    <h2>External Authentication Support</h2>
-    <p>Two supporting components were built:</p>
-    <ol>
-      <li>
-        <strong>A lightweight browser extension</strong>
-        <ul>
-          <li>Authenticates the user to the firewall from off-network</li>
-          <li>Maintains identity mapping tied to the external IP</li>
-        </ul>
-      </li>
-      <li>
-        <strong>A re-authentication web portal</strong>
-        <ul>
-          <li>Integrated with directory services</li>
-          <li>Uses Palo Alto APIs to refresh authentication state</li>
-          <li>Allows users to recover cleanly when sessions expire</li>
-        </ul>
-      </li>
-    </ol>
-    <p>These are significant enough to warrant separate posts.</p>
-
-    <h2>Operational Lessons Learned</h2>
-    <ul>
-      <li>PAC files age — they require ownership</li>
-      <li>Behavioral enforcement matters more than static domains</li>
-      <li>Identity failures are louder off-campus</li>
-      <li>Parents notice problems faster than teachers</li>
-      <li>Simplicity at the proxy tier pays dividends</li>
-    </ul>
-    <p><strong>The firewall should remain the brain. Everything else should be plumbing.</strong></p>
-
-    <h2>What’s Intentionally Omitted</h2>
-    <p>This write-up intentionally avoids publishing:</p>
-    <ul>
-      <li>Exact PAC file contents</li>
-      <li>Internal domain names</li>
-      <li>Authentication logic and API workflows</li>
-      <li>Network paths and environment-specific tuning</li>
-    </ul>
-    <p>The value here is the design pattern, not a brittle copy/paste solution.</p>
-
-    <h2>What’s Next</h2>
-    <ul>
-      <li>Post: The off-campus authentication browser extension (design + flow)</li>
-      <li>Post: The re-authentication portal (AD + Palo Alto API pattern)</li>
-      <li>Post: Proxy-evasion patterns seen off-campus (what actually shows up in logs)</li>
-    </ul>
-
-    <div class="footer">
-      <p>
-        <a href="/">← Back to RealWorldPANOS</a>
-      </p>
+    <div class="footer" style="margin-top:22px;">
+      All views are my own and do not represent my employer. © 2025 RealWorldPANOS
     </div>
   </div>
 </body>
