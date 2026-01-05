@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Extending Secure Access into Public Locations | RealWorldPANOS</title>
-  <meta name="description" content="Reusing the same centralized enforcement model to provide secure student access in public locations." />
+  <title>Secure Internet Access on School Buses | RealWorldPANOS</title>
+  <meta name="description" content="Secure, filtered student access on school buses using centralized policy enforcement over cellular transport." />
   <link rel="stylesheet" href="../assets/css/site.css" />
 
   <style>
@@ -53,7 +53,7 @@
       <span class="chip">Connectivity</span>
       <span class="chip">IPSec</span>
       <span class="chip">Guest Filtering</span>
-      <span class="chip">Public Access</span>
+      <span class="chip">Transportation</span>
       <span class="chip">Cradlepoint</span>
     </div>
 
@@ -62,43 +62,52 @@
       <a href="./connectivity-beyond-campus.html">Connectivity Beyond the Campus</a>
     </p>
 
-    <h1>Extending Secure Access into Public Locations</h1>
+    <h1>Secure Internet Access on School Buses</h1>
 
     <p>
-      During COVID, the limitations of home connectivity became impossible to ignore. Some students simply did not have reliable
-      internet access outside of school, regardless of device availability.
+      When Chromebooks were issued district-wide, access to learning tools improved immediately. What became clear just as
+      quickly was that learning had moved almost entirely online. For students with long bus rides, connectivity stopped the
+      moment they left campus.
     </p>
 
     <p>
-      By this point, secure cellular connectivity was already proven on school buses. The architecture did not need to change.
-      It only needed to be extended.
+      At the same time, Transportation faced a different challenge. Bus camera systems needed to be accessible remotely by
+      administrators without introducing new security risks. Solving these problems independently would have added complexity
+      and operational overhead.
     </p>
 
     <p>
-      Solar-powered access units were deployed in public locations across the district. These units provided guest wireless
-      access to students using district-issued devices. As with buses, cellular served only as transport. All traffic was
-      tunneled back to centralized guest firewalls, where filtering and policy enforcement occurred.
+      The solution was to treat buses as controlled extensions of the district network rather than isolated endpoints. Cellular
+      connectivity provided transport only. All trust and policy enforcement remained centralized.
+    </p>
+
+    <p>
+      Students connected to a guest wireless network on the bus. That traffic was carried over secure tunnels back to district
+      guest firewalls, where the same filtering, logging, and controls used on campus were applied. Transportation video systems
+      followed a separate, isolated path directly to their vendor platform, keeping student and operational traffic cleanly
+      segmented.
+    </p>
+
+    <p>
+      This approach avoided special rules and avoided pushing security decisions to the edge. From the student’s perspective,
+      the experience was simple. From the network’s perspective, buses behaved like any other access layer governed by existing
+      policy.
     </p>
 
     <div class="figure">
-      <img src="../assets/img/diagram-public-guest-tunnel.png" alt="Public access units use guest Wi-Fi and IPSec tunneling back to centralized guest enforcement" />
-      <div class="caption">Diagram: Public access units reuse the same guest tunnel architecture.</div>
+      <img src="../assets/img/diagram-bus-guest-tunnel.png" alt="Buses use guest Wi-Fi and IPSec tunneling back to centralized guest enforcement" />
+      <div class="caption">Diagram: Buses extend guest access via IPSec tunnels back to centralized guest enforcement.</div>
     </div>
 
     <p>
-      No permanent construction was required. No new security model was introduced. Students experienced the same access they
-      would receive on campus, and operations teams managed these deployments using the same tooling already in place.
-    </p>
-
-    <p>
-      This phase reinforced an important lesson: once policy enforcement is centralized, where users connect becomes far less
-      important than how traffic is handled.
+      What began as a targeted deployment scaled into hundreds of vehicles and established the foundation for everything that
+      followed.
     </p>
 
     <div class="hr"></div>
 
     <p class="post-nav">
-      <a href="./secure-internet-on-school-buses.html">Next: Secure Internet Access on School Buses</a><br />
+      <a href="./extending-secure-access-public-locations.html">Next: Extending Secure Access into Public Locations</a>
     </p>
 
     <div class="footer" style="margin-top:22px;">
