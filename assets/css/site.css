@@ -191,3 +191,6 @@ li{margin:8px 0}
 .post-nav {
   margin-top: 1rem;
 }
+.post p {
+  line-height: 1.6;
+}
