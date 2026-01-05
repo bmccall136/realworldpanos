@@ -174,3 +174,20 @@ li{margin:8px 0}
   font-size:13px;
 }
 .footer a{color:var(--link2)}
+/* Optional: post images */
+.post-figure {
+  margin: 1.5rem 0;
+}
+.post-figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.post-figure figcaption {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+.post-nav {
+  margin-top: 1rem;
+}
