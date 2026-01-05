@@ -1,0 +1,77 @@
+<!-- /posts/extending-secure-access-public-locations.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Extending Secure Access into Public Locations | RealWorldPANOS</title>
+  <meta name="description" content="Reusing the same centralized enforcement model to provide secure student access in public locations." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="../index.html">RealWorldPANOS</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="./connectivity-beyond-campus.html">Connectivity Beyond the Campus</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h1>Extending Secure Access into Public Locations</h1>
+
+      <p>
+        During COVID, the limitations of home connectivity became impossible to ignore. Some students simply did not have reliable
+        internet access outside of school, regardless of device availability.
+      </p>
+
+      <p>
+        By this point, secure cellular connectivity was already proven on school buses. The architecture did not need to change.
+        It only needed to be extended.
+      </p>
+
+      <p>
+        Solar-powered access units were deployed in public locations across the district. These units provided guest wireless
+        access to students using district-issued devices. As with buses, cellular served only as transport. All traffic was
+        tunneled back to centralized guest firewalls, where filtering and policy enforcement occurred.
+      </p>
+
+      <!-- Diagram placeholder: replace src later -->
+      <figure class="post-figure">
+        <img src="../assets/img/diagram-public-guest-tunnel.png" alt="High-level diagram placeholder: public access units use guest Wi-Fi and IPSec tunneling back to centralized guest enforcement" />
+        <figcaption>Diagram: Public access units reuse the same guest tunnel architecture.</figcaption>
+      </figure>
+
+      <p>
+        No permanent construction was required. No new security model was introduced. Students experienced the same access they
+        would receive on campus, and operations teams managed these deployments using the same tooling already in place.
+      </p>
+
+      <p>
+        This phase reinforced an important lesson: once policy enforcement is centralized, where users connect becomes far less
+        important than how traffic is handled.
+      </p>
+
+      <hr />
+
+      <p class="post-nav">
+        <a href="./secure-internet-on-school-buses.html">Previous: Secure Internet Access on School Buses</a><br />
+        <a href="./cellular-as-infrastructure-site-resiliency.html">Next: Cellular as Infrastructure for Site Resiliency</a>
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="y"></span> RealWorldPANOS</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
