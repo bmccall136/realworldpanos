@@ -1,4 +1,3 @@
-<!-- /posts/cellular-as-infrastructure-site-resiliency.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,72 +6,106 @@
   <title>Cellular as Infrastructure for Site Resiliency | RealWorldPANOS</title>
   <meta name="description" content="Using cellular transport and secure tunneling to maintain priority services during site outages without providing wireless access." />
   <link rel="stylesheet" href="../assets/css/site.css" />
+
+  <style>
+    .post { margin-top: 18px; }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; margin: 14px 0 6px; }
+    .chip { border:1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.72); padding:6px 10px; border-radius: 999px; font-size: 13px; }
+    .post h1 { margin: 14px 0 10px; line-height: 1.1; }
+    .post p { color: rgba(255,255,255,.72); }
+    .figure { margin: 14px 0 22px; }
+    .figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.35);
+    }
+    .caption { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,.55); }
+    .hr { margin: 22px 0; }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K3FHP6L4TN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-K3FHP6L4TN');
+  </script>
 </head>
+
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a class="site-title" href="../index.html">RealWorldPANOS</a>
-      <nav class="site-nav">
-        <a href="../index.html">Home</a>
-        <a href="./connectivity-beyond-campus.html">Connectivity Beyond the Campus</a>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><a href="../index.html">RealWorldPANOS</a></div>
+      <nav class="nav">
+        <a href="../index.html#posts">Posts</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
       </nav>
     </div>
-  </header>
+  </div>
 
-  <main class="container">
-    <article class="post">
-      <h1>Cellular as Infrastructure for Site Resiliency</h1>
-
-      <p>
-        As the environment matured, cellular connectivity was extended again, this time to support site resiliency rather than
-        user access.
-      </p>
-
-      <p>
-        School locations were equipped with cellular paths designed specifically for failover. These deployments provided no
-        wireless access and were not intended for general internet use. Their sole purpose was to maintain continuity when
-        primary circuits were unavailable.
-      </p>
-
-      <p>
-        Under normal conditions, sites operated entirely on primary connectivity. When outages occurred, routing behavior shifted
-        automatically, allowing priority services such as voice and critical applications to continue operating across secure
-        cellular tunnels back to core firewalls. When primary connectivity returned, traffic reverted without manual
-        intervention.
-      </p>
-
-      <!-- Diagram placeholder: replace src later -->
-      <figure class="post-figure">
-        <img src="../assets/img/diagram-site-failover-tunnel.png" alt="High-level diagram placeholder: site failover uses a hardwired cellular backup path over IPSec to core enforcement with no Wi-Fi" />
-        <figcaption>Diagram: Site failover uses a hardwired cellular backup path over secure tunnels to core enforcement.</figcaption>
-      </figure>
-
-      <p>
-        From an operational standpoint, this reduced the noise typically associated with site outages. From a user standpoint,
-        many failures went unnoticed. Cellular connectivity had transitioned from an emergency workaround into infrastructure.
-      </p>
-
-      <p>
-        By this stage, scale made automation and centralized management mandatory rather than optional. The same architectural
-        discipline that made earlier deployments successful ensured that resiliency could be added without complexity.
-      </p>
-
-      <hr />
-
-      <p class="post-nav">
-        <a href="./extending-secure-access-public-locations.html">Previous: Extending Secure Access into Public Locations</a>
-      </p>
-    </article>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="y"></span> RealWorldPANOS</p>
+  <div class="wrap post">
+    <div class="chips">
+      <span class="chip">Architecture</span>
+      <span class="chip">Operations</span>
+      <span class="chip">IPSec</span>
+      <span class="chip">Failover</span>
+      <span class="chip">Cradlepoint</span>
     </div>
-  </footer>
 
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
+    <p class="muted" style="margin:0 0 8px;">
+      <a href="../index.html">Home</a> &nbsp;›&nbsp;
+      <a href="./connectivity-beyond-campus.html">Connectivity Beyond the Campus</a>
+    </p>
+
+    <h1>Cellular as Infrastructure for Site Resiliency</h1>
+
+    <p>
+      As the environment matured, cellular connectivity was extended again, this time to support site resiliency rather than
+      user access.
+    </p>
+
+    <p>
+      School locations were equipped with cellular paths designed specifically for failover. These deployments provided no
+      wireless access and were not intended for general internet use. Their sole purpose was to maintain continuity when
+      primary circuits were unavailable.
+    </p>
+
+    <p>
+      Under normal conditions, sites operated entirely on primary connectivity. When outages occurred, routing behavior shifted
+      automatically, allowing priority services such as voice and critical applications to continue operating across secure
+      cellular tunnels back to core firewalls. When primary connectivity returned, traffic reverted without manual
+      intervention.
+    </p>
+
+    <div class="figure">
+      <img src="../assets/img/diagram-site-failover-tunnel.png" alt="Site failover uses a hardwired cellular backup path over IPSec to core enforcement with no Wi-Fi" />
+      <div class="caption">Diagram: Site failover uses a hardwired cellular backup path over secure tunnels to core enforcement.</div>
+    </div>
+
+    <p>
+      From an operational standpoint, this reduced the noise typically associated with site outages. From a user standpoint,
+      many failures went unnoticed. Cellular connectivity had transitioned from an emergency workaround into infrastructure.
+    </p>
+
+    <p>
+      By this stage, scale made automation and centralized management mandatory rather than optional. The same architectural
+      discipline that made earlier deployments successful ensured that resiliency could be added without complexity.
+    </p>
+
+    <div class="hr"></div>
+
+    <p class="post-nav">
+      <a href="./extending-secure-access-public-locations.html">Previous: Extending Secure Access into Public Locations</a>
+    </p>
+
+    <div class="footer" style="margin-top:22px;">
+      © 2026 RealWorldPANOS
+    </div>
+  </div>
 </body>
 </html>
