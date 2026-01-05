@@ -1,0 +1,85 @@
+<!-- /posts/secure-internet-on-school-buses.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Internet Access on School Buses | RealWorldPANOS</title>
+  <meta name="description" content="Secure, filtered student access on school buses using centralized policy enforcement over cellular transport." />
+  <link rel="stylesheet" href="../assets/css/site.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="site-title" href="../index.html">RealWorldPANOS</a>
+      <nav class="site-nav">
+        <a href="../index.html">Home</a>
+        <a href="./connectivity-beyond-campus.html">Connectivity Beyond the Campus</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="post">
+      <h1>Secure Internet Access on School Buses</h1>
+
+      <p>
+        When Chromebooks were issued district-wide, access to learning tools improved immediately. What became clear just as
+        quickly was that learning had moved almost entirely online. For students with long bus rides, connectivity stopped the
+        moment they left campus.
+      </p>
+
+      <p>
+        At the same time, Transportation faced a different challenge. Bus camera systems needed to be accessible remotely by
+        administrators without introducing new security risks. Solving these problems independently would have added complexity
+        and operational overhead.
+      </p>
+
+      <p>
+        The solution was to treat buses as controlled extensions of the district network rather than isolated endpoints. Cellular
+        connectivity provided transport only. All trust and policy enforcement remained centralized.
+      </p>
+
+      <p>
+        Students connected to a guest wireless network on the bus. That traffic was carried over secure tunnels back to district
+        guest firewalls, where the same filtering, logging, and controls used on campus were applied. Transportation video systems
+        followed a separate, isolated path directly to their vendor platform, keeping student and operational traffic cleanly
+        segmented.
+      </p>
+
+      <p>
+        This approach avoided special rules and avoided pushing security decisions to the edge. From the student’s perspective,
+        the experience was simple. From the network’s perspective, buses behaved like any other access layer governed by existing
+        policy.
+      </p>
+
+      <!-- Diagram placeholder: replace src later -->
+      <figure class="post-figure">
+        <img src="../assets/img/diagram-bus-guest-tunnel.png" alt="High-level diagram placeholder: buses use guest Wi-Fi and IPSec tunneling back to centralized guest enforcement" />
+        <figcaption>Diagram: Buses extend guest access via IPSec tunnels back to centralized guest enforcement.</figcaption>
+      </figure>
+
+      <p>
+        What began as a targeted deployment scaled into hundreds of vehicles and established the foundation for everything that
+        followed.
+      </p>
+
+      <hr />
+
+      <p class="post-nav">
+        <a href="./extending-secure-access-public-locations.html">Next: Extending Secure Access into Public Locations</a>
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="y"></span> RealWorldPANOS</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
