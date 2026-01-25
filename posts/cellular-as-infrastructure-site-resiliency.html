@@ -82,15 +82,17 @@
       intervention.
     </p>
 
+<!-- Figure 1 — Normal operation -->
 <div class="figure">
   <a href="../assets/img/lte-centralized-enforcement-normal-operation.pdf" target="_blank" rel="noopener">
     <img
       src="../assets/img/lte-centralized-enforcement-normal-operation.png"
-      alt="Normal operation: LTE is standby transport (higher admin distance) while primary WAN carries site traffic; IPSec tunnels terminate at centralized PAN-OS enforcement"
+      alt="Normal operation: primary WAN carries site traffic; LTE remains standby with always-on IPSec tunnel to centralized PAN-OS enforcement"
     />
   </a>
+
   <div class="caption">
-    Figure 1 — Normal operation: primary WAN carries site traffic. LTE remains a standby transport (higher administrative distance) with an always-on IPSec tunnel to centralized PAN-OS enforcement.
+    Figure 1 — Normal operation: primary WAN carries site traffic. LTE remains a standby transport (higher administrative distance) with an always-on IPSec tunnel back to centralized PAN-OS enforcement.
     <br />
     <a href="../assets/img/lte-centralized-enforcement-normal-operation.pdf" target="_blank" rel="noopener">
       Open full-size diagram (PDF)
@@ -98,6 +100,7 @@
   </div>
 </div>
 
+<!-- Figure 2 — Failover (critical-only routing) -->
 <div class="figure">
   <a href="../assets/img/lte-centralized-enforcement-failover-critical-only.pdf" target="_blank" rel="noopener">
     <img
@@ -105,6 +108,7 @@
       alt="Failover operation: LTE transport engaged during WAN outage with IPSec tunnels to centralized PAN-OS enforcement; routing restricted to essential services"
     />
   </a>
+
   <div class="caption">
     Figure 2 — Failover operation (WAN outage): LTE transport carries IPSec tunnels to centralized PAN-OS enforcement, but routing is intentionally restricted to essential services only (e.g., VoIP, PowerSchool, dismissal systems) to prevent cellular overload.
     <br />
